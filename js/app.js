@@ -1,12 +1,14 @@
 // Enemies our player must avoid
 class Enemy {
-    constructor() {
-        this.x = 0;
-        this.y = 63;
-        //this.speed = ;
+    constructor(x = 0, y = 63, s = 100) {
+        this.x = x;
+        this.y = y;
+        this.speed = s;
         // The image/sprite for our enemies, this uses
         // a helper we've provided to easily load images
         this.sprite = 'images/enemy-bug.png';
+        this.height = 70;
+        this.width = 70;
     }
 
     // Update the enemy's position, required method for game
@@ -15,7 +17,7 @@ class Enemy {
         // You should multiply any movement by the dt parameter
         // which will ensure the game runs at the same speed for
         // all computers.
-        this.x++ * dt;
+        this.x+= this.speed * dt;
     }
 
     // Draw the enemy on the screen, required method for game
@@ -30,13 +32,14 @@ class Enemy {
 class Player {
     constructor() {
         this.sprite = 'images/char-boy.png';
-        this.x  = 200;
-        this.y = 380;
+        this.x  = 202;
+        this.y = 383;
+        this.height = 70;
+        this.width = 70;
     }
 
-    handleInput(keyCode) {
-        //console.log(`keyCode=${keyCode}`);
-        switch (keyCode) {
+    handleInput(keyText) {
+        switch (keyText) {
             case 'up':
                 this.moveUp();
                 break;
@@ -54,23 +57,31 @@ class Player {
     }
 
     moveUp() {
-        this.y -= 85;
+        if(this.y > -32) {
+            this.y -= 83;
+        }
     }
 
     moveDown() {
-        this.y += 85;
+        if(this.y < 383) {
+            this.y += 83;
+        }
     }
 
     moveLeft() {
-        this.x -= 100;
+        if(this.x > 0) {
+            this.x -= 101;
+        }
     }
 
     moveRight() {
-        this.x += 100;
+        if(this.x < 404) {
+            this.x += 101;
+        }
     }
 
     update() {
-        //
+        
     }
 
     render() {
@@ -81,7 +92,11 @@ class Player {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-const allEnemies = [new Enemy()];
+const enemy1 = new Enemy();
+const enemy2 = new Enemy(x = -101, y = 146, s = 200);
+const enemy3 = new Enemy(x = -501, y = 146, s = 250);
+const enemy4 = new Enemy(x = -201, y = 229, s = 150);
+const allEnemies = [enemy1, enemy2, enemy3, enemy4];
 const player = new Player();
 
 
