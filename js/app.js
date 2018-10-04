@@ -42,6 +42,13 @@ class Enemy {
     }
 }
 
+class Rock extends Enemy {
+    constructor(x = -101, y = 63, s = 150) {
+        super(x, y, s);
+        this.sprite = 'images/Rock.png';
+    }
+}
+
 /* The Player class represents the object the user controls. 
  * This class requires an update(), render() and handleInput() method.
  */
@@ -106,6 +113,7 @@ class Player {
      */
     update() {
         if(this.y === -32) {
+            alert("You won!!!");
             this.reset();
         }
     }
@@ -130,7 +138,7 @@ class Player {
 const enemy1 = new Enemy();
 const enemy2 = new Enemy(x = -101, y = 146, s = 200);
 const enemy3 = new Enemy(x = -101, y = 146, s = 250);
-const enemy4 = new Enemy(x = -101, y = 229, s = 350);
+const enemy4 = new Rock(x = -101, y = 229, s = 350);
 const allEnemies = [enemy1, enemy2, enemy3, enemy4];
 const player = new Player();
 
