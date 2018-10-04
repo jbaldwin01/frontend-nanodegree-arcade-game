@@ -2,6 +2,19 @@ body {
     text-align: center;
 }
 
+button {
+    min-width: 48px;
+    min-height: 48px;
+}
+
+.button-left {
+    margin-right: 2em;
+}
+
+.button-right {
+    margin-left: 2em;
+}
+
 .button-group {
     width: 505px;
     margin: auto;
