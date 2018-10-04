@@ -1,7 +1,27 @@
+// Y coordinate of paved lane 1
+const lane1 = 63;
+// Y coordinate of paved lane 2
+const lane2 = 146;
+// Y coordinate of paved lane 3
+const lane3 = 229;
 /* Array of y coordinates cooresponding to each of the 
  * 3 paved lanes that the enemies travel on.
  */
-const laneList = [63, 146, 229];
+const laneList = [lane1, lane2, lane3];
+// Minimum y coordinate the player can move to
+const minY = -32;
+// Maximum y coordinate the player can move to
+const maxY = 383;
+// Minimum x coordinate the player can move to
+const minX = 0;
+// Maximum x coordinate the player can move to
+const maxX = 404;
+// X coordinate of the right boundary of the game canvas
+const rightBoundary = 505;
+// Left/right increment
+const horizontalIncrement = 101;
+// Up/down increment
+const verticleIncrement = 83;
 
 /* The Enemy class represents objects the
  * player must avoid.
@@ -29,10 +49,10 @@ class Enemy {
          */
         this.x+= this.speed * dt;
         //reset enemy starting location after it moves off screen
-        if(this.x > 505) {
+        if(this.x > rightBoundary) {
             this.x = this.startPosition;
-            //randomly assign y to value for lane 1, 2 or 3
-            this.y = laneList[Math.floor(Math.random() * 4)];
+            //randomly assign paved lane 1, 2 or 3 for the enemies next pass
+            this.y = laneList[Math.floor(Math.random() * allEnemies.length)];
         }
     }
 
@@ -42,6 +62,9 @@ class Enemy {
     }
 }
 
+/* 
+ * The Rock class is a subclass of Enemy
+ */
 class Rock extends Enemy {
     constructor(x = -101, y = 63, s = 150) {
         super(x, y, s);
@@ -84,27 +107,43 @@ class Player {
 
     }
 
+    /*
+     * Move the player up one position on the grid.
+     */
     moveUp() {
-        if(this.y > -32) {
-            this.y -= 83;
+        // Prevent the player from moving off the top of the screen.
+        if(this.y > minY) {
+            this.y -= verticleIncrement;
         }
     }
 
+    /*
+     * Move the player down one position on the grid.
+     */
     moveDown() {
-        if(this.y < 383) {
-            this.y += 83;
+        // Prevent the player from moving off the bottom of the screen.
+        if(this.y < maxY) {
+            this.y += verticleIncrement;
         }
     }
 
+    /*
+     * Move the player left one position on the grid.
+     */
     moveLeft() {
-        if(this.x > 0) {
-            this.x -= 101;
+        // Prevent the player from moving off the left side of the screen.
+        if(this.x > minX) {
+            this.x -= horizontalIncrement;
         }
     }
 
+    /*
+     * Move the player right one position on the grid.
+     */
     moveRight() {
-        if(this.x < 404) {
-            this.x += 101;
+        // Prevent the player from moving off the right side of the screen.
+        if(this.x < maxX) {
+            this.x += horizontalIncrement;
         }
     }
 
@@ -112,10 +151,17 @@ class Player {
      * reset the player to the starting position.
      */
     update() {
-        if(this.y === -32) {
-            alert("You won!!!");
+        if(this.reachedWater()) {
+            alert("You made it across safely!!!  Click OK to play again.");
             this.reset();
         }
+    }
+
+    /*
+     * Return true if player has reached the water.
+     */
+    reachedWater() {
+        return this.y === minY ? true : false;
     }
 
     /* Reset the player's x and y coordinates to the
